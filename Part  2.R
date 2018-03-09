@@ -1,23 +1,25 @@
-# library(reshape2)
-# library(ggplot2)
-# library(gtable)
-# library(grid)
-# library(extrafont)
-# 
-# 
-# data <- read.xlsx("Book1.xlsx",sheetName = "Sheet1")
-# data$Week <- as.factor(data$Week)
-# 
-# p1 <- ggplot(data=data,aes(x=Week))+
-#   geom_bar(aes(y=Total.A),stat="identity",position ="identity",fill='yellow3',color='lightblue4') +
-#   geom_bar(aes(y=Total.B),stat="identity",position ="identity",fill='green3',color='lightblue4')
-# 
-# 
-# p2 <- ggplot(data, aes(x=Week, group=1)) + 
-#   geom_line(aes(y = Percent.Positive.A, colour = "yellow3")) + 
-#   geom_line(aes(y = Percent.Positive.B, colour = "green3")) + 
-#   geom_line(aes(y = X..Positive, colour = "black"))
-# 
+library(reshape2)
+library(ggplot2)
+library(gtable)
+library(grid)
+library(extrafont)
+library(stringr)
+library(stringi)
+
+data <- read.xlsx("Book1.xlsx",sheetName = "Sheet1")
+data$Week <- as.factor(data$Week)
+
+p1 <- ggplot(data=data,aes(x=Week))+
+  geom_bar(aes(y=Total.A),stat="identity",position ="identity",fill='yellow3',color='lightblue4') +
+  geom_bar(aes(y=Total.B),stat="identity",position ="identity",fill='green3',color='lightblue4')
+
+
+p2 <- ggplot(data, aes(x=Week, group=1)) +
+  geom_line(aes(y = Percent.Positive.A, colour = "yellow3")) +
+  geom_line(aes(y = Percent.Positive.B, colour = "green3")) +
+  geom_line(aes(y = X..Positive, colour = "black"))
+  
+
 # g1 <- ggplot_gtable(ggplot_build(p1))
 # g2 <- ggplot_gtable(ggplot_build(p2))
 # 
@@ -40,20 +42,20 @@
 
 
 
-# 
-# library(reshape2)
-# library(ggplot2)
-# 
-# dat <- read.xlsx("Book2.xlsx",sheetName = "Sheet1")
-# dat$Week <- as.factor(dat$Week)
-# dat$Total...Tested <- NULL
-# dat$A.unable.to.sub.type. <- NULL
-# DF1 <- melt(dat, id.var="Week")
-# 
-# ggplot(DF1, aes(x = Week, y = value, fill = variable)) + 
-#   geom_bar(stat = "identity",position = "stack") +
-# scale_fill_manual("legend", values = c("A.H3N2v." = "blue","A..H1N1.pdm09" = "orange", "A.H3." = "red", "A.Subtyping.not.performed." = "yellow3", "B" = "lightblue", "BVIC"="lightgreen", "BYAM"="green3"))
-# 
+
+library(reshape2)
+library(ggplot2)
+
+dat <- read.xlsx("Book2.xlsx",sheetName = "Sheet1")
+dat$Week <- as.factor(dat$Week)
+dat$Total...Tested <- NULL
+dat$A.unable.to.sub.type. <- NULL
+DF1 <- melt(dat, id.var="Week")
+
+ggplot(DF1, aes(x = Week, y = value, fill = variable)) +
+  geom_bar(stat = "identity",position = "stack") +
+scale_fill_manual("legend", values = c("A.H3N2v." = "blue","A..H1N1.pdm09" = "orange", "A.H3." = "red", "A.Subtyping.not.performed." = "yellow3", "B" = "lightblue", "BVIC"="lightgreen", "BYAM"="green3"))
+
 
 
 
@@ -65,7 +67,7 @@ mapdata <- data.frame(df$STATENAME,df$activity)
 mapdata$df.STATENAME <- tolower(mapdata$df.STATENAME)
 colnames(mapdata) <- c("state","activity")
 
-GeoStates <- gvisGeoChart(mapdata, "state", "activity",
+gvisGeoChart(mapdata, "state", "activity",
                           options=list(region="US", 
                                        displayMode="regions", 
                                        resolution="provinces",
